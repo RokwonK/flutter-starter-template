@@ -11,7 +11,7 @@ flutter를 이용하여 빠르게 앱을 만들고 배포하기 위한 템플릿
 ### 디렉터리 구조
 ```bash
 /lib
-├── config # firebase, DI, DIO 등 설정
+├── config # firebase, DI, Retrofit 등 설정
 ├── data
 │   ├── datasource # db, network, & interceptor
 │   ├── dto # request, response 및 db model
