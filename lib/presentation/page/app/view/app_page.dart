@@ -1,10 +1,23 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_starter_template/presentation/page/app/bloc/app_bloc.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
 
-  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<AppBloc>(
+        create: (context) => AppBloc(),
+        child: const AppView(),
+    );
+  }
+}
+
+class AppView extends StatelessWidget {
+  const AppView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,6 +31,7 @@ class App extends StatelessWidget {
   }
 }
 
+// Demo
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
