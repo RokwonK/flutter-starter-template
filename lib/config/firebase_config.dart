@@ -14,7 +14,7 @@ void _setupCloudMessageConfig() {
 
 // Firebase Crashlytics 설정
 void _setupCrashlyticsConfig() {
-
+  // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 }
 
 // Firebase DynamicLink 설정
