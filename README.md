@@ -27,7 +27,7 @@ flutter를 이용하여 빠르게 앱을 만들고 배포하기 위한 템플릿
 │   │	└── font
 │   └── component # 기본 컴포넌트 & 만들어질 컴포넌트
 │       ├── base
-│       └── custom
+│       └── button
 └── global
     ├── constant
     ├── enum
