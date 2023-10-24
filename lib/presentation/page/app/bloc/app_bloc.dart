@@ -16,6 +16,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     AppLoadingStatusChanged event,
     Emitter<AppState> emit
   ) async {
-
+    emit(state.copyWith(status: event.status));
   }
 }
