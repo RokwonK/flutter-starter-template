@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_starter_template/config/bloc_config.dart';
 import 'package:flutter_starter_template/config/di_config.dart';
 import 'package:flutter_starter_template/config/firebase_config.dart';
 import 'package:flutter_starter_template/config/retrofit_config.dart';
@@ -26,14 +26,10 @@ void main() {
         setupFirebaseConfig();
         setupRetrofitConfig();
         setupDIConfig();
-        // ... 기타 작업
-
-        // Bloc 상태감지 Observer 추가
-        Bloc.observer = const AppBlocObserver();
+        setupBlocConfig();
 
         // 앱 실행
         runApp(const App());
-
         // Splash 종료
         FlutterNativeSplash.remove();
       },

@@ -1,10 +1,14 @@
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter_starter_template/global/manager/logger.dart';
 
-class AppBlocObserver extends BlocObserver {
-  const AppBlocObserver();
+void setupBlocConfig() {
+  // Bloc 상태감지 Observer 추가
+  Bloc.observer = const _AppBlocObserver();
+}
+
+class _AppBlocObserver extends BlocObserver {
+  const _AppBlocObserver();
 
   @override
   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
