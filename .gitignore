@@ -145,3 +145,6 @@ app.*.symbols
 macos/
 linux/
 windows/
+
+# env
+*.env
