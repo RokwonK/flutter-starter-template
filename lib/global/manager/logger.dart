@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
-var logger = BaseLogger();
+final logger = BaseLogger();
 
 class BaseLogger {
   BaseLogger();

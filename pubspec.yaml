@@ -19,6 +19,9 @@ dependencies:
   bloc: ^8.1.2
   equatable: ^2.0.5
 
+  # DI
+  get_it: ^7.6.4
+
   # API
   retrofit: '>=4.0.0 <5.0.0'
   dio: ^5.1.2

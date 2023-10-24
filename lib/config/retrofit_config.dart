@@ -1,7 +1,5 @@
 
 import 'package:dio/dio.dart';
-import 'package:flutter_starter_template/data/repository/auth_repository.dart';
-import 'package:flutter_starter_template/global/constant.dart';
 import 'package:flutter_starter_template/global/manager/logger.dart';
 
 late final Dio baseApiDio;
@@ -19,8 +17,6 @@ void _setupBaseApiDio() {
 
   // interceptors 추가
   baseApiDio.interceptors.add(_CustomLogInterceptor());
-
-  AuthRepository(baseApiDio, baseUrl: baseUrl);
 }
 
 class _CustomLogInterceptor extends Interceptor {
