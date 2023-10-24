@@ -7,7 +7,6 @@ import 'package:flutter_starter_template/config/bloc_config.dart';
 import 'package:flutter_starter_template/config/di_config.dart';
 import 'package:flutter_starter_template/config/firebase_config.dart';
 import 'package:flutter_starter_template/config/retrofit_config.dart';
-import 'package:flutter_starter_template/global/constant.dart';
 import 'package:flutter_starter_template/presentation/page/app/app.dart';
 
 import 'package:flutter_starter_template/presentation/page/app/view/app_page.dart';

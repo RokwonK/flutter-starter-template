@@ -84,4 +84,10 @@ iOS
 
 Android
 - `/android/app/src/main/AndroidManifest.xml` 파일
-- `<application> 태그 - android:label` 의 속성값을 앱 이름으로 변경 
+- `<application> 태그 - android:label` 의 속성값을 앱 이름으로 변경
+
+<br />
+
+### 자동 생성 파일 숨기기
+- Android studio -> Preferences -> Editor -> File Types -> "ignore files and folders"
+- Add `*.g.dart` , `*.freezed.dart`
