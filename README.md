@@ -13,9 +13,11 @@ flutter를 이용하여 빠르게 앱을 만들고 배포하기 위한 템플릿
 /lib
 ├── config # firebase, DI, Retrofit 등 설정
 ├── data
-│   ├── datasource # db, network, & interceptor
+│   ├── datasource # db, network(retrofit 쓰면 필요없긴함)
 │   ├── dto # request, response 및 db model
-│   └── repository # 도메인별 repo
+│   └── repository 
+│   │	├── network # remote data_source 사용
+│   │	└── local # local data source 사용
 ├── domain
 │   └── usecase
 ├── presentation
