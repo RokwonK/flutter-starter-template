@@ -38,11 +38,25 @@ flutter를 이용하여 빠르게 앱을 만들고 배포하기 위한 템플릿
 
 <br />
 
-### 제공 기능
+## 실행하기
+1. 이 Template 레포를 베이스로 repo 만들기
+2. 패키지 명 변경(라이브러리 사용)
+3. Apple Developer 푸시설정 (하단 `Firebase 연동` 참고)
+   - 푸시가 필요없다면 Xcode Capability 에서 background mode, push notificaiton 지우기
+4. Android 푸시설정
+   - 하단 Firebase 연동참고
+5. Firebase cli, flutterfire cli 다운 및 configure 실행
+6. firebase_config 등 config 파일에서 추석지우고 설정하기 
+
+
+<br/>
+
+## 제공 기능
 - Font(Pretendard) 설정
 - 기반 디자인 시스템(Color, Space, Font, component)
 - Bloc, DI, Retrofit 설정 코드
 - Firebase 관련 설정 코드
+- Notification, 딥링킹, 이벤트추적 Service
 - Network, LocalDB 접근 코드
 - App Icon 생성기
 - Splash 생성기
@@ -106,16 +120,23 @@ Android
 - pubspec 내 `firebase_core` 추가
 - `android/`와 `android/app` 내 `build.gradle`의 [dependency 직접 설정](https://totally-developer.tistory.com/144) 혹은 [`flutterfire` 명령어로 자동 추가](https://firebase.google.com/docs/flutter/setup?hl=ko&platform=ios)하기
 - 오류 발생 가능성 있으니 [해당 블로그](https://bangu4.tistory.com/351) 참고
+- iOS 셋팅
+  - `ios/Runner` 하위에 다운받은 `GoogleService-Info.plist` 파일 넣기
+  - 해당 파일은 .gitignore
+- Android 셋팅
+  - `android/app` 하위에 다운받은 `google-services.json` 파일 넣기
+  - 해당 파일은 .gitignore
 
 </div>
 </details>
 
 <details>
-<summary>Cloud Messaging(FCM) 설정</summary>
+<summary>Cloud Messaging(FCM) 설정 + LocalNotification 설정</summary>
 <div markdown="1">
 
-- pubspec 내 `firebase_messaging` 추가  
+- pubspec 내 `firebase_messaging` 추가
 - pubspec 내 `flutter_local_notifications` 추가(Android는 앱이 포그라운드일때 알림이 안뜨므로 local noti로 띄어줘야함)
+- android gradle 파일 설정 필요. but, `flutterfire`로 자동화
 - iOS 설정
   1. Apple Developer - Keys - 인증키 생성(APNs 기능 포함) - p8 파일 Firebase에 등록
   2. Apple Developer - Identifiers - App ID(bundle ID) - 추가할 기능(Push Noti, 필요하다면 Sign in apple도!) 선택해서 만들기
@@ -140,23 +161,26 @@ Android
   ```
   2. `android/app/src/main/AndroidMenifest.xml` 최상단 <activity>에 intnent-filter 추가 - 푸시메시지 클릭시 메시지에 담긴 정보를 받을 수 있음
   ```xml
-  <activity
+    <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"/>
           ...
-		  ...
+          ...
           <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />
                 <category android:name="android.intent.category.DEFAULT" />
           </intent-filter>    
-        </activity>
+    </activity>
   ```
   3. 퍼미션 추가 - <manifest xmlns: ~> 바로 하단에 추가
   ```xml
   <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
   ```
-  
+
+- iOS (info.plist에 값추가) - [해결](https://velog.io/@ayb226/Flutter-%EC%98%A4%EB%A5%98-%EB%AA%A8%EC%9D%8C-FIRMessaging-Remote-Notifications-proxy-enabled-%ED%95%B4%EA%B2%B0%EB%B2%95)
+- iOS (AppDelegate에 값추가) - [해결](https://dev-nam.tistory.com/49)
+- Android/iOS의 Local Notification을 위한 추가 설정 - [Local Notification](https://medium.com/doohyeon-kim/flutter-local-notification-9db501508d75)
 - FCM 퍼미션 요청, 컨트롤 코드는 템플릿 코드에 존재
 - 주의 : FCMToken은 만료기간있으니 앱 킬때마다 업데이트하기
 
@@ -167,7 +191,10 @@ Android
 <summary>Crashlytics 설정</summary>
 <div markdown="1">
 
+- [블로그](https://deku.posstree.com/en/flutter/firebase/crashlytics/)
 - [공식문서](https://firebase.flutter.dev/docs/crashlytics/usage)
+- podspec 내 `firebase_crashlytics` 추가
+- android gradle 파일 설정 필요. but, `flutterfire`로 자동화
 
 </div>
 </details>
@@ -188,3 +215,16 @@ Android
 2025년 8월까지 FDL(Firebase Dynamic Link)에 따른 딥링킹 솔루션 필요
 - [Appsflyer 플랜](https://www.appsflyer.com/ko/pricing/)
 - [Appsflyer flutter plugin](https://github.com/AppsFlyerSDK/appsflyer-flutter-plugin/blob/master/doc/DeepLink.md)
+
+<br />
+
+### 권한 요청 관리
+- 권한 요청을 관리하는 라이브러리가 존재한다. [permission_handler](https://pub.dev/packages/permission_handler)
+
+<br />  
+
+### 로컬 노티피케이션 설정  
+- [플랫폼별 추가 필요설정](https://medium.com/doohyeon-kim/flutter-local-notification-9db501508d75)
+- [로컬 노티피케이션 설정](https://velog.io/@tygerhwang/FLUTTER-Local-Notifications2)
+
+<br />

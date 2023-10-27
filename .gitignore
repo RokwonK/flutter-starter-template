@@ -148,3 +148,8 @@ windows/
 
 # env
 *.env
+
+# Google & Firebase 파일
+google-services.json
+GoogleService-Info.plist
+firebase_app_id_file.json

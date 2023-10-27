@@ -1,12 +1,16 @@
 import 'dart:async';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_starter_template/config/bloc_config.dart';
+import 'package:flutter_starter_template/config/config.dart';
 import 'package:flutter_starter_template/config/di_config.dart';
 import 'package:flutter_starter_template/config/firebase_config.dart';
 import 'package:flutter_starter_template/config/retrofit_config.dart';
+import 'package:flutter_starter_template/domain/service/deep_linking_service.dart';
+import 'package:flutter_starter_template/domain/service/notification_service.dart';
 import 'package:flutter_starter_template/presentation/page/app/app.dart';
 
 import 'package:flutter_starter_template/presentation/page/app/view/app_page.dart';
@@ -22,16 +26,20 @@ void main() {
 
         // 설정
         await dotenv.load(fileName: 'assets/config/.env');
-        setupFirebaseConfig();
-        setupRetrofitConfig();
         setupDIConfig();
         setupBlocConfig();
+        await setupFirebaseConfig();
+        await setupNotificationConfig(
+            getIt.get<NotificationService>(),
+            getIt.get<DeepLinkingService>()
+        );
+        setupRetrofitConfig();
 
         // 앱 실행
         runApp(const App());
         // Splash 종료
         FlutterNativeSplash.remove();
       },
-      (error, stack) => {} // FirebaseCrashlytics.instance.recordError(error, stack, fatal: true)
+      (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack, fatal: true)
   );
 }
