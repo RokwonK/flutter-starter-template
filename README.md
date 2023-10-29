@@ -40,14 +40,28 @@ flutter를 이용하여 빠르게 앱을 만들고 배포하기 위한 템플릿
 
 ## 실행하기
 1. 이 Template 레포를 베이스로 repo 만들기
-2. 패키지 명 변경(라이브러리 사용)
-3. Apple Developer 푸시설정 (하단 `Firebase 연동` 참고)
+2. 패키지명 변경
+   - [iOS/Android 패키지명 변경 실행](#index-text)
+   - 파일 모든 패키지명 변경 - cmd+shift+r 로 `package:flutter_starter_template` -> `package:패키지명` 
+   - pubspec 내 패키지명 변경
+3. flutter 초기화
+   - `flutter create .` flutter 준비
+   - `assets/confg/.env` 작성(API_BASE_URL 필수 작성)
+   - `flutter clean` 실행 전 준비
+   - `flutter pub get` 라이브러리 재다운
+   - `scripts/code-generate.sh` code generator 실행
+4. (선택) Firebase 설정 (설정하지 않을 시 `main.dart`서 firebase, notification config 주석처리 필수)
+   - `firebase cli`, `flutterfire-cli` 설치 [Firebase 연동 - Firebase Core](#firebase-연동)
+   - `firebase login:add 계정` 로 새로운 계정 추가
+   - `firebase login:use 계정`로 새 계정 선택
+   - (계정 선택 안될 시) `firebase login --reauth` 로 계정 전환
+   - `flutterfire configure`로 자동설정
+   - `firebase_options.dart` 파일 `lib/config` 밑으로 이동, `firebase_config` 파일 내 설정코드 주석 제거 
+5. (선택) 푸시설정
+   - [Firebase 연동 - Cloud Messaging(FCM) 설정](#firebase-연동)
+   - Apple Developer 푸시설정 (하단 `Firebase 연동` 참고)
    - 푸시가 필요없다면 Xcode Capability 에서 background mode, push notificaiton 지우기
-4. Android 푸시설정
-   - 하단 Firebase 연동참고
-5. Firebase cli, flutterfire cli 다운 및 configure 실행
-6. firebase_config 등 config 파일에서 추석지우고 설정하기 
-
+   - Android 푸시설정
 
 <br/>
 
