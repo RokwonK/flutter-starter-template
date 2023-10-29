@@ -134,10 +134,10 @@ Android
 - pubspec 내 `firebase_core` 추가
 - `android/`와 `android/app` 내 `build.gradle`의 [dependency 직접 설정](https://totally-developer.tistory.com/144) 혹은 [`flutterfire` 명령어로 자동 추가](https://firebase.google.com/docs/flutter/setup?hl=ko&platform=ios)하기
 - 오류 발생 가능성 있으니 [해당 블로그](https://bangu4.tistory.com/351) 참고
-- iOS 셋팅
+- iOS 셋팅(`flutterfire` 사용시 셋팅 불필요)
   - `ios/Runner` 하위에 다운받은 `GoogleService-Info.plist` 파일 넣기
   - 해당 파일은 .gitignore
-- Android 셋팅
+- Android 셋팅(`flutterfire` 사용시 셋팅 불필요)
   - `android/app` 하위에 다운받은 `google-services.json` 파일 넣기
   - 해당 파일은 .gitignore
 
