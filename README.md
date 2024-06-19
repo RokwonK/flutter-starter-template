@@ -131,15 +131,19 @@ Android
 <summary>Firebase Core</summary>
 <div markdown="1">
 
-- pubspec 내 `firebase_core` 추가
-- `android/`와 `android/app` 내 `build.gradle`의 [dependency 직접 설정](https://totally-developer.tistory.com/144) 혹은 [`flutterfire` 명령어로 자동 추가](https://firebase.google.com/docs/flutter/setup?hl=ko&platform=ios)하기
+필수! - pubspec 내 `firebase_core` 추가
+
+- 자동설정
+  - [`flutterfire` 명령어로 자동 설정](https://firebase.google.com/docs/flutter/setup?hl=ko&platform=ios)하기
+- 자동 설정 안하면
+  - `android/`와 `android/app` 내 `build.gradle`의 [dependency 직접 설정](https://totally-developer.tistory.com/144) 혹은
+  - iOS 셋팅(`flutterfire` 사용시 셋팅 불필요)
+    - `ios/Runner` 하위에 다운받은 `GoogleService-Info.plist` 파일 넣기
+    - 해당 파일은 .gitignore
+  - Android 셋팅(`flutterfire` 사용시 셋팅 불필요)
+    - `android/app` 하위에 다운받은 `google-services.json` 파일 넣기
+    - 해당 파일은 .gitignore
 - 오류 발생 가능성 있으니 [해당 블로그](https://bangu4.tistory.com/351) 참고
-- iOS 셋팅(`flutterfire` 사용시 셋팅 불필요)
-  - `ios/Runner` 하위에 다운받은 `GoogleService-Info.plist` 파일 넣기
-  - 해당 파일은 .gitignore
-- Android 셋팅(`flutterfire` 사용시 셋팅 불필요)
-  - `android/app` 하위에 다운받은 `google-services.json` 파일 넣기
-  - 해당 파일은 .gitignore
 
 </div>
 </details>
@@ -242,3 +246,69 @@ Android
 - [로컬 노티피케이션 설정](https://velog.io/@tygerhwang/FLUTTER-Local-Notifications2)
 
 <br />
+
+## 알면 좋은 것들
+
+### 토막상식 1.1 - Android 배포 관련
+1. Key Hash(Relase, Debug)  
+서드파티 서비스들이 해당 앱을 인증하는데 사용됨. Debug는 개발용, Release는 배포용. 어플리케이션 생성시 미리 만들어지므로 따로 생성할 필요 없고 추출만 아래와 같이 하면 됨.
+
+Debug. 하지만 여러 앱을 개발 중인 경우 debug.keystore가 겹치므로 제대로 된 값이 안나올 경우가 많음. Debug 키의 경우 어플리케이션 코드로 뽑는게 편함
+```bash 
+keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore | openssl sha1 -binary | openssl base64`
+```  
+Release  
+```bash
+keytool -exportcert -alias androidReleasekey -keystore ~/.android/release.keystore | openssl sha1 -binary | openssl base64
+```
+
+2. KeyStore (Keystore랑 다른거!)  
+개발자가 앱을 서명할 때 사용하는 파일. 앱을 서명하면 앱이 개발자에 의해 만들어졌다는 것을 증명하고 앱이 변경되지 않았음을 보장한다. Google Play Console에 앱 업로드시 사용하는 인증키.
+안드로이드 시스템에서 Java 환경에서 사용되는 KeyStore 형식인 JKS(Java KeyStore)를 사용한다. 생성방법은 아래와 같다.
+```bash
+keytool -genkey -v -keystore ~/lettering.jks -keyalg RSA -keysize 2048 -validity 10000 -alias lettering -storetype JKS 
+```
+
+3. Signing Key  
+Google Play Console에 자동 생성하는 인증키. 스토어에서 앱이 위조되지 않음을 증명함. 인증된 앱만 유저가 다운로드할 수 있음.
+
+<br />
+
+### 토막상식 1.2 - iOS 배포 관련
+iOS는 생략한다! 라는 자신감
+
+<br />
+
+### 토막상식 2 - DeepLink
+- **(공통) URI Scheme**
+  - Scheme을 이용한 방식. 해당 Scheme을 사용하는 앱을 킨다.
+  - iOS는 info.plist에 Scheme을 등록해야하고, Android는 Manifest에 등록한다.
+  - ex) `myapp://path?query=123`
+- **(iOS) Universal Link**
+  - 웹 링크로 iOS 앱을 여는 방식으로 보안이 강화되었고 사용자 경험이 원활하다. 단, 서버측 설정이 필요하다.(apple-app-site-association json형식 파일 저장)
+  - Capability - Associated Domains - 추가 - `applinks:{서버 호스트명}` 등록
+  - Deffered Deep Linking을 직접 지원하지는 않아 개발자가 구현해야한다. 이것도 빡세니 써드파티 솔루션을 사용하자. 
+  - 앱이 설치되어 있다면 해당 앱으로 이동, 앱이 설치되어 있지 않다면 스토어로 이동
+  - ex) `https://{서버 호스트명}/path?query=123`
+- **(Andoird) App Link**
+  - 웹 링크로 Andoird 앱을 여는 방식으로 보안이 강화되었고 사용자 경험이 원활하다. 단, 서버측 설정이 필요하다.(assetlinks.json 파일 저장)
+  - AndroidManifest.xml - activity MainActivity - meta-data로 flutter_deeplinking_enabled, intent-filter 추가 필요
+  - Deffered Deep Linking을 직접 지원하지는 않아 개발자가 구현해야한다. 이것도 빡세니 써드파티 솔루션을 사용하자.
+  - 앱이 설치되어 있다면 해당 앱으로 이동, 앱이 설치되어 있지 않다면 스토어로 이동
+  - ex) `https://{서버 호스트명}/path?query=123`
+- **써드파티 솔루션**
+  - 하나의 링크로 웹, iOS 앱, Android 앱, 스토어, Deffered Deep Linking 가능하도록 지원 
+  - Firebase Dynamic Link, AppsFlyer 등이 존재함
+
+<br />
+
+### 토막상식 3 - AndroidManifest.xml 파일
+- <activity> 태그
+  - 사용자가 앱과 상호작용할 수 있는 UI를 제공. Acitivity 클래스를 속성으로 가진다.
+  - 처음 실행될 MainActivity는 기본으로 들어가고, 카카오 로그인 같이 다른 화면을 띄워주기 위해 Activity를 추가한다.
+- activity 태그 내 <intent-filter> 내
+  - 액티비티가 어떤 Intent를 처리할지 actions, category, data로 정의한다. Intent란 앱 구성요소간 작업을 요창하거나 정보를 전달하는데 사용되는 메세지 객체이다.
+    - actions : 인텐트의 액션을 정의
+    - category : 인텐트의 카테고리
+    - data : 인텐트와 연관된 데이터의 URI를 정의
+  - 정의된actions, category, data에 해당하는 메세지를 받으면 해당 Activity를 실행한다. 
