@@ -250,6 +250,8 @@ Android
 ## 알면 좋은 것들
 
 ### 토막상식 1.1 - Android 배포 관련
+[배포 과정 링크](https://whoyoung90.tistory.com/79)
+
 1. Key Hash(Relase, Debug)  
 서드파티 서비스들이 해당 앱을 인증하는데 사용됨. Debug는 개발용, Release는 배포용. 어플리케이션 생성시 미리 만들어지므로 따로 생성할 필요 없고 추출만 아래와 같이 하면 됨.
 
